@@ -23,6 +23,7 @@ Each project follows the same back-end flow, one folder per stage:
 | Gate-level Simulation | `04_GATE` | VCS (SDF back-annotated) |
 
 Verification environment (`PATTERN.sv` / `TESTBED.sv`) lives in `00_TESTBED`.
+
 Run scripts are `0X_run` inside each stage folder.
 
 ## Author
