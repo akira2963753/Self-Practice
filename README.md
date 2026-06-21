@@ -7,7 +7,7 @@ Each folder is a self-contained project taken from RTL through synthesis, STA, a
 
 | Project | Topic | Implementation |
 |---------|-------|-------------------|
-| [`CDC/`](CDC/) | Clock Domain Crossing (async FIFO) | [`CDC.v`](CDC/ADFP/01_RTL/CDC.v) · [`PATTERN.sv`](CDC/ADFP/00_TESTBED/PATTERN.sv) · [`TESTBED.sv`](CDC/ADFP/00_TESTBED/TESTBED.sv) · DC [`syn.tcl`](CDC/ADFP/02_SYN/syn.tcl) · PT [`pt.tcl`](CDC/ADFP/03_PT/pt.tcl) |
+| [`CDC/`](CDC/) | Clock Domain Crossing (async FIFO) | [`CDC.v`](CDC/ADFP/01_RTL/CDC.v) · [`PATTERN.sv`](CDC/ADFP/00_TESTBED/PATTERN.sv) · [`TESTBED.sv`](CDC/ADFP/00_TESTBED/TESTBED.sv) · [`syn.tcl`](CDC/ADFP/02_SYN/syn.tcl) · [`pt.tcl`](CDC/ADFP/03_PT/pt.tcl) |
 
 *(more to come)*
 
