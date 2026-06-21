@@ -28,4 +28,4 @@ Run scripts are `0X_run` inside each stage folder.
 
 ## Author
 
-**Marco** · M11407439 · <harry2963753@gmail.com>
+**Marco** · <harry2963753@gmail.com>
