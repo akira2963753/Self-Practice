@@ -23,7 +23,7 @@ module PATTERN #(
     parameter ASIZE = 4,
     parameter WSIZE = $clog2(DSIZE))(
     
-    // Output Port
+    // Output Port 
     output logic rst_n,
     output logic clk1,
     output logic clk2,
