@@ -1,0 +1,1 @@
+vcs -full64 -debug_access+all -R +v2k -f file.f -timescale=1ns/1ps

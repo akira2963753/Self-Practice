@@ -49,13 +49,8 @@ module PATTERN #(
     
     initial begin
         reset_task();
-        genin_task();
-        readout_task();
-        #10;
-        $display("====================================");
-        $display("  [SUCCESS] ALL PATTERN PASS ! ! !  ");
-        $display("====================================");
-        #10 $finish;
+        test1_task();
+        end_task();
     end
 
     //=============================================================
@@ -72,12 +67,13 @@ module PATTERN #(
            data_i = 'dx;
            #20;
            release clk;
-           $info("[INFO] Reset All Pattern Signal.");
+           $info("[RESET] Reset All Pattern Signal.");
         end
     endtask
 
-    task genin_task;
+    task test1_task;
         begin
+            // Generate Input
             @(negedge clk);
             for(int i = 0; i < DEPTH; i++) begin
                 data_i = $unsigned($random(seed)) % 32'd256;
@@ -89,24 +85,31 @@ module PATTERN #(
             data_i = 0;
             en_w = 0;
             addr_w = 0;
-            $info("[INFO] Input Task Finish.");
-        end
-    endtask
-
-    task readout_task;
-        begin
+            $info("[TEST-CASE 01] Input Task Finish.");
+            
+            // Read Output and Check
             for(int i = 0; i < DEPTH; i++) begin
                 en_r = 1;
                 @(negedge clk);
                 // Check Output Result
                 CHECK_OUT_VALUE: assert (data_o===golden_mem[addr_r]) 
-                else $fatal(1, "[FAIL] Out mismatch. golden = %0d, read = %0d at address %0d"
+                else $fatal(1, "[TEST-CASE 01] Out mismatch. golden = %0d, read = %0d at address %0d"
                         , golden_mem[addr_r], data_o, addr_r);
                 addr_r = addr_r + 1;
             end
             en_r = 0;
             addr_r = 0;
-            $info("[INFO] Ouput Read Task Finish.");
+            $info("[TEST-CASE 01] Ouput Read Task Finish.");
+        end
+    endtask
+
+    task end_task;
+        begin
+            #10;
+            $display("====================================");
+            $display("  [SUCCESS] ALL PATTERN PASS ! ! !  ");
+            $display("====================================");
+            #10 $finish; 
         end
     endtask
 
