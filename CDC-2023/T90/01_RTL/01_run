@@ -1,0 +1,2 @@
+vcs -full64 -debug_access+all -R +v2k -f file.f -timescale=1ns/1ps \
+        -cm line+cond+fsm+tgl+branch+tgl+assert -cm_dir ./coverage_dir +define+RTL

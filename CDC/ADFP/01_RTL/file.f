@@ -1,9 +1,0 @@
--sverilog ./fifomem.v
--sverilog ./sync_r2w.v
--sverilog ./sync_w2r.v
--sverilog ./wptr_full.v
--sverilog ./rptr_empty.v
--sverilog ./AFIFO.v
--sverilog ./CDC.v
--severilog ../00_TESTBED/PATTERN.sv
--sverilog ../00_TESTBED/TESTBED.sv
