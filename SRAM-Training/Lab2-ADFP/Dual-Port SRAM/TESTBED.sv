@@ -42,10 +42,10 @@ module TESTBED();
     
     parameter DEPTH = 128;
     parameter ADDR_W = $clog2(DEPTH);
-    parameter DATA_W = 64;
+    parameter DATA_W = 32;
     
-    logic clk, en_w, en_c;
-    logic [ADDR_W-1:0] addr;
+    logic clk, en_w, en_r;
+    logic [ADDR_W-1:0] addr_w, addr_r;
     logic [DATA_W-1:0] data_i, data_o;
 
     PATTERN #(
@@ -54,25 +54,29 @@ module TESTBED();
         .DATA_W(DATA_W))
     u_PATTERN(
         .clk(clk),
-        .en_c(en_c),
         .en_w(en_w),
-        .addr(addr),
+        .addr_w(addr_w),
+        .en_r(en_r),
+        .addr_r(addr_r),
         .data_i(data_i),
         .data_o(data_o));
 
-    TS1N16ADFPCLLLVTA128X64M4SWSHOD u_SRAM(
-        .CLK(clk),
-        .CEB(~en_c),
+    TS6N16ADFPCLLLVTA128X32M4FWSHOD u_SRAM(
+        .CLKW(clk),
         .WEB(~en_w),
-        .A(addr),
-        .D(data_i),
-        .Q(data_o),
         .BWEB({DATA_W{~en_w}}),
+        .AA(addr_w),
+        .D(data_i),
+        .CLKR(clk),
+        .REB(~en_r),
+        .AB(addr_r),
+        .Q(data_o),
+        .RCT(2'b01),
+        .WCT(2'b01),
+        .KP(3'b011),
         .SLP(1'd0),
         .DSLP(1'd0),
         .SD(1'd0),
-        .PUDELAY(),
-        .RTSEL(2'b01),
-        .WTSEL(2'b01));
+        .PUDELAY());
 
 endmodule

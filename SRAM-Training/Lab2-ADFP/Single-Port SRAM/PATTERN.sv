@@ -7,7 +7,7 @@
 * Author:       Marco <harry2963753@gmail.com>
 * Student ID:   M11407439
 * Tool:         VCS, Verdi, Memory Compiler and Design Compiler
-* Process:      TSMC 90nm
+* Process:      TSMC 16nm
 *
 ******************************************************************************/
 `define CLK_PERIOD  3.0
