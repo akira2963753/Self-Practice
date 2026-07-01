@@ -1,4 +1,0 @@
-env LM_LICENSE_FILE=26585@lshc \
-    timeout 120s \
-    /usr/cad/synopsys/synthesis/2014.09-sp1/bin/lc_shell \
-    -f ./mem_lib2db.tcl

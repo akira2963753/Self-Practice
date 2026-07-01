@@ -1,9 +1,9 @@
 /******************************************************************************
 * Copyright (C) 2026 Marco
 *
-* File Name:    testfixture.sv
+* File Name:    PATTERN.sv
 * Project:      SRAM-Training
-* Module:       TESTBED
+* Module:       PATTERN
 * Author:       Marco <harry2963753@gmail.com>
 * Student ID:   M11407439
 * Tool:         VCS, Verdi, Memory Compiler and Design Compiler
@@ -49,7 +49,7 @@ module PATTERN #(
     
     initial begin
         reset_task();
-        test1_task();
+        test_task();
         end_task();
     end
 
@@ -71,7 +71,7 @@ module PATTERN #(
         end
     endtask
 
-    task test1_task;
+    task test_task;
         begin
             // Generate Input
             @(negedge clk);
@@ -85,7 +85,7 @@ module PATTERN #(
             data_i = 0;
             en_w = 0;
             addr_w = 0;
-            $info("[TEST-CASE 01] Input Task Finish.");
+            $info("[INFO] Input Task Finish.");
             
             // Read Output and Check
             for(int i = 0; i < DEPTH; i++) begin
@@ -93,13 +93,13 @@ module PATTERN #(
                 @(negedge clk);
                 // Check Output Result
                 CHECK_OUT_VALUE: assert (data_o===golden_mem[addr_r]) 
-                else $fatal(1, "[TEST-CASE 01] Out mismatch. golden = %0d, read = %0d at address %0d"
+                else $fatal(1, "[FAIL] Out mismatch. golden = %0d, read = %0d at address %0d"
                         , golden_mem[addr_r], data_o, addr_r);
                 addr_r = addr_r + 1;
             end
             en_r = 0;
             addr_r = 0;
-            $info("[TEST-CASE 01] Ouput Read Task Finish.");
+            $info("[INFO] Ouput Read Task Finish.");
         end
     endtask
 

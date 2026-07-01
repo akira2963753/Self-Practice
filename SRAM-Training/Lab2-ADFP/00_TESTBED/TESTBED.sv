@@ -22,7 +22,6 @@ module TESTBED();
             $display("======================================");
             $display("  [INFO] GATE-LEVEL SIMULATION START  ");
             $display("======================================");
-            // 單獨測 SRAM 不用 SDF，他的時序資訊包含在 .v 檔裡面
         end
     `else
         initial begin
@@ -41,12 +40,12 @@ module TESTBED();
     // -------------------- Design & Pattern ----------------------
     //=============================================================
     
-    parameter DEPTH = 256;
+    parameter DEPTH = 128;
     parameter ADDR_W = $clog2(DEPTH);
-    parameter DATA_W = 32;
+    parameter DATA_W = 64;
     
-    logic clk, en_w, en_r;
-    logic [ADDR_W-1:0] addr_w, addr_r;
+    logic clk, en_w, en_c;
+    logic [ADDR_W-1:0] addr;
     logic [DATA_W-1:0] data_i, data_o;
 
     PATTERN #(
@@ -55,31 +54,25 @@ module TESTBED();
         .DATA_W(DATA_W))
     u_PATTERN(
         .clk(clk),
+        .en_c(en_c),
         .en_w(en_w),
-        .en_r(en_r),
-        .addr_w(addr_w),
-        .addr_r(addr_r),
+        .addr(addr),
         .data_i(data_i),
         .data_o(data_o));
 
-    SRAM_DP_ADV u_SRAM(
-        // Port A : Write
-        .CLKA(clk),
-        .CENA(~en_w), 
-        .WENA(~en_w), 
-        .AA(addr_w),
-        .DA(data_i),
-        .QA(),
-        // Port B : Read
-        .CLKB(clk),
-        .CENB(~en_r), 
-        .WENB(1'b1), 
-        .AB(addr_r),
-        .DB('b0),
-        .QB(data_o),
-        // Margin
-        .EMAA(3'd0),
-        .EMAB(3'd0));
-
+    TS1N16ADFPCLLLVTA128X64M4SWSHOD u_SRAM(
+        .CLK(clk),
+        .CEB(en_c),
+        .WEB(en_w),
+        .A(addr),
+        .D(data_i),
+        .Q(data_o),
+        .BWEB(64'hFFFF_FFFF_FFFF_FFFF),
+        .SLP(1'd0),
+        .DSLP(1'd0),
+        .SD(1'd0),
+        .PUDELAY(),
+        .RTSEL(2'b01),
+        .WTSEL(2'b01));
 
 endmodule

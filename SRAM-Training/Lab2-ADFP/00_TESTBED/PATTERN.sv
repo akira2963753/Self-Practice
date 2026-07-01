@@ -1,9 +1,9 @@
 /******************************************************************************
 * Copyright (C) 2026 Marco
 *
-* File Name:    testfixture.sv
+* File Name:    PATTERN.sv
 * Project:      SRAM-Training
-* Module:       TESTBED
+* Module:       PATTERN
 * Author:       Marco <harry2963753@gmail.com>
 * Student ID:   M11407439
 * Tool:         VCS, Verdi, Memory Compiler and Design Compiler
@@ -12,16 +12,14 @@
 ******************************************************************************/
 `define CLK_PERIOD  3.0
 
-
 module PATTERN #(
-    parameter DEPTH = 256,
+    parameter DEPTH = 128,
     parameter ADDR_W = $clog2(DEPTH),
-    parameter DATA_W = 32)(
+    parameter DATA_W = 64)(
     output logic clk,
+    output logic en_c,
     output logic en_w,
-    output logic en_r,
-    output logic [ADDR_W-1:0] addr_w,
-    output logic [ADDR_W-1:0] addr_r,
+    output logic [ADDR_W-1:0] addr,
     output logic [DATA_W-1:0] data_i,
     input [DATA_W-1:0] data_o);
 
@@ -49,7 +47,7 @@ module PATTERN #(
     
     initial begin
         reset_task();
-        test1_task();
+        test_task();
         end_task();
     end
 
@@ -60,10 +58,9 @@ module PATTERN #(
     task reset_task;
         begin
            force clk = 0;
+           en_c = 0;
            en_w = 0;
-           en_r = 0;
-           addr_w = 0;
-           addr_r = 0;
+           addr = 0;
            data_i = 'dx;
            #20;
            release clk;
@@ -71,35 +68,35 @@ module PATTERN #(
         end
     endtask
 
-    task test1_task;
+    task test_task;
         begin
+            en_c = 1;
             // Generate Input
             @(negedge clk);
             for(int i = 0; i < DEPTH; i++) begin
                 data_i = $unsigned($random(seed)) % 32'd256;
                 en_w = 1;
-                golden_mem[addr_w] = data_i;
+                golden_mem[addr] = data_i;
                 @(negedge clk);
-                addr_w = addr_w + 1;
+                addr = addr + 1;
             end
             data_i = 0;
             en_w = 0;
-            addr_w = 0;
-            $info("[TEST-CASE 01] Input Task Finish.");
-            
+            addr = 0;
+            $info("[INFO] Input Task Finish.");
+            @(negedge clk);
             // Read Output and Check
             for(int i = 0; i < DEPTH; i++) begin
-                en_r = 1;
                 @(negedge clk);
                 // Check Output Result
-                CHECK_OUT_VALUE: assert (data_o===golden_mem[addr_r]) 
-                else $fatal(1, "[TEST-CASE 01] Out mismatch. golden = %0d, read = %0d at address %0d"
-                        , golden_mem[addr_r], data_o, addr_r);
-                addr_r = addr_r + 1;
+                CHECK_OUT_VALUE: assert (data_o===golden_mem[addr]) 
+                else $fatal(1, "[FAIL] Out mismatch. golden = %0d, read = %0d at address %0d"
+                        , golden_mem[addr], data_o, addr);
+                addr = addr + 1;
             end
-            en_r = 0;
-            addr_r = 0;
-            $info("[TEST-CASE 01] Ouput Read Task Finish.");
+            en_c = 0;
+            addr = 0;
+            $info("[INFO] Ouput Read Task Finish.");
         end
     endtask
 
