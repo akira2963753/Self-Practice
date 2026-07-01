@@ -62,12 +62,12 @@ module TESTBED();
 
     TS1N16ADFPCLLLVTA128X64M4SWSHOD u_SRAM(
         .CLK(clk),
-        .CEB(en_c),
-        .WEB(en_w),
+        .CEB(~en_c),
+        .WEB(~en_w),
         .A(addr),
         .D(data_i),
         .Q(data_o),
-        .BWEB(64'hFFFF_FFFF_FFFF_FFFF),
+        .BWEB({DATA_W{~en_w}}),
         .SLP(1'd0),
         .DSLP(1'd0),
         .SD(1'd0),
