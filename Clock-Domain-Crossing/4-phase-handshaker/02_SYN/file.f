@@ -1,0 +1,2 @@
+-sverilog ../01_RTL/NDFF.sv
+-sverilog ../01_RTL/Handshaker.sv

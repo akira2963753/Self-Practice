@@ -1,0 +1,5 @@
+-sverilog ./NDFF.sv
+-sverilog ./Handshaker.sv
+-sverilog ../00_TESTBED/PATTERN.sv
+-sverilog ../00_TESTBED/CHECKER.sv
+-sverilog ../00_TESTBED/TESTBED.sv
