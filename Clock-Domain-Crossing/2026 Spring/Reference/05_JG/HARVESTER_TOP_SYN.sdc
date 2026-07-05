@@ -1,1 +1,0 @@
-../02_SYN/Netlist/HARVESTER_TOP_SYN.sdc
